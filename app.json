@@ -1,17 +1,11 @@
 {
-  "name": "todoApp",
-  "displayName": "todoApp",
+  "name": "Do it Do it",
+  "displayName": "Do it Do it",
   "expo": {
-    "name": "todoApp",
-    "slug": "todoApp",
+    "name": "Do it Do it",
+    "slug": "Do it",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"]
   }
 }
