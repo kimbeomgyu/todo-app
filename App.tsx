@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,17 +7,30 @@ import {
   TextInput,
   Dimensions,
   Platform,
+  ScrollView,
 } from "react-native";
+import Todo from "./Todo";
 
-const { height, width } = Dimensions.get("screen");
+const { width } = Dimensions.get("window");
 
 export default function App() {
+  const [newTodo, setNewTodo] = useState("");
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <Text style={styles.title}>Kwai To do</Text>
       <View style={styles.card}>
-        <TextInput style={styles.input} placeholder={"New To Do"} />
+        <TextInput
+          value={newTodo}
+          onChangeText={setNewTodo}
+          style={styles.input}
+          placeholder={"New To Do"}
+          returnKeyType={"done"}
+          autoCorrect={false}
+        />
+        <ScrollView contentContainerStyle={styles.todos}>
+          <Todo />
+        </ScrollView>
       </View>
     </View>
   );
@@ -51,5 +64,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  input: { padding: 20 },
+  input: {
+    padding: 20,
+    borderBottomColor: "#bbb",
+    borderBottomWidth: 1,
+    fontSize: 25,
+  },
+  todos: { alignItems: "center" },
 });
