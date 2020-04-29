@@ -29,7 +29,7 @@ export default function App() {
           autoCorrect={false}
         />
         <ScrollView contentContainerStyle={styles.todos}>
-          <Todo />
+          <Todo text={"Hello world"} />
         </ScrollView>
       </View>
     </View>

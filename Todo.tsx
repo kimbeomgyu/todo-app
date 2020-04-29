@@ -5,14 +5,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  TextInput,
 } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-export default function Todo() {
+export default function Todo({ text }: { text: string }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-
+  const [toDoValue, setToDoValue] = useState(text);
   const toggleCompleted = useCallback(
     () => setIsCompleted((isCompleted) => !isCompleted),
     []
@@ -30,14 +31,29 @@ export default function Todo() {
             ]}
           />
         </TouchableOpacity>
-        <Text
-          style={[
-            styles.text,
-            isCompleted ? styles.completedText : styles.uncompletedText,
-          ]}
-        >
-          Hello world To Do
-        </Text>
+        {isEditing ? (
+          <TextInput
+            style={[
+              styles.input,
+              styles.text,
+              isCompleted ? styles.completedText : styles.uncompletedText,
+            ]}
+            value={toDoValue}
+            multiline={true}
+            onChangeText={setToDoValue}
+            returnKeyType={"done"}
+            autoCorrect={false}
+          />
+        ) : (
+          <Text
+            style={[
+              styles.text,
+              isCompleted ? styles.completedText : styles.uncompletedText,
+            ]}
+          >
+            {text}
+          </Text>
+        )}
       </View>
       {isEditing ? (
         <View style={styles.actions}>
@@ -115,4 +131,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   actionText: {},
+  input: {
+    marginVertical: 20,
+    width: width / 2,
+  },
 });
