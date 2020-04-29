@@ -17,17 +17,50 @@ export default function Todo() {
     () => setIsCompleted((isCompleted) => !isCompleted),
     []
   );
+  const startEditing = useCallback(() => setIsEditing(true), []);
+  const finishEditing = useCallback(() => setIsEditing(false), []);
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleCompleted}>
-        <View
+      <View style={styles.column}>
+        <TouchableOpacity onPress={toggleCompleted}>
+          <View
+            style={[
+              styles.circle,
+              isCompleted ? styles.completedCircle : styles.uncompletedCircle,
+            ]}
+          />
+        </TouchableOpacity>
+        <Text
           style={[
-            styles.circle,
-            isCompleted ? styles.completedCircle : styles.uncompletedCircle,
+            styles.text,
+            isCompleted ? styles.completedText : styles.uncompletedText,
           ]}
-        />
-      </TouchableOpacity>
-      <Text style={styles.text}>Hello world To Do</Text>
+        >
+          Hello world To Do
+        </Text>
+      </View>
+      {isEditing ? (
+        <View style={styles.actions}>
+          <TouchableOpacity onPressOut={finishEditing}>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>✅</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.actions}>
+          <TouchableOpacity onPressOut={startEditing}>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>🖍</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={styles.actionContainer}>
+              <Text style={styles.actionText}>❌</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -38,6 +71,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   text: {
     fontWeight: "600",
@@ -59,4 +94,25 @@ const styles = StyleSheet.create({
   uncompletedCircle: {
     borderColor: "#F23657",
   },
+  completedText: {
+    color: "#bbb",
+    textDecorationLine: "line-through",
+  },
+  uncompletedText: {
+    color: "#353539",
+  },
+  column: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: width / 2,
+    justifyContent: "space-between",
+  },
+  actions: {
+    flexDirection: "row",
+  },
+  actionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  actionText: {},
 });
