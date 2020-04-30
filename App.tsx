@@ -14,19 +14,20 @@ import { AppLoading } from "expo";
 import { v1 as uuidv1 } from "uuid";
 const { width } = Dimensions.get("window");
 
+interface ITodo {
+  id: string;
+  text: string;
+  isCompleted: boolean;
+  date: number;
+}
+
+interface ITodos {
+  [ID: string]: ITodo;
+}
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
-  const [todos, setTodos] = useState(
-    {} as {
-      [ID: string]: {
-        id: string;
-        text: string;
-        isCompleted: boolean;
-        date: number;
-      };
-    }
-  );
+  const [todos, setTodos] = useState({} as ITodos);
 
   const addTodo = useCallback(() => {
     if (newTodo !== "") {
