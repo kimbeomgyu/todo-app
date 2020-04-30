@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,49 @@ import {
   ScrollView,
 } from "react-native";
 import Todo from "./Todo";
-
+import { AppLoading } from "expo";
+import { v1 as uuidv1 } from "uuid";
 const { width } = Dimensions.get("window");
 
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
+  const [todos, setTodos] = useState(
+    {} as {
+      [ID: string]: {
+        id: string;
+        text: string;
+        isCompleted: boolean;
+        date: number;
+      };
+    }
+  );
+
+  const addTodo = useCallback(() => {
+    if (newTodo !== "") {
+      const ID = uuidv1();
+      const todo = {
+        [ID]: {
+          id: ID,
+          text: newTodo,
+          isCompleted: false,
+          date: Date.now(),
+        },
+      };
+      setTodos((todos) => ({ ...todos, ...todo }));
+      setNewTodo("");
+    }
+  }, [newTodo]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadedTodos(true);
+    }, 2000);
+  }, []);
+
+  if (!loadedTodos) {
+    <AppLoading />;
+  }
 
   return (
     <View style={styles.container}>
@@ -29,9 +66,12 @@ export default function App() {
           placeholder={"New To Do"}
           returnKeyType={"done"}
           autoCorrect={false}
+          onSubmitEditing={addTodo}
         />
         <ScrollView contentContainerStyle={styles.todos}>
-          <Todo text={"Hello world"} />
+          {Object.keys(todos).map((key) => (
+            <Todo text={todos[key].text} />
+          ))}
         </ScrollView>
       </View>
     </View>
