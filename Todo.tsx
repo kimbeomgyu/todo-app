@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
     borderWidth: 3,
     marginRight: 20,
-    marginVertical: 17,
+    marginVertical: 20,
   },
   completedCircle: {
     borderColor: "#bbb",

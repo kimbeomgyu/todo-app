@@ -15,6 +15,8 @@ const { width } = Dimensions.get("window");
 
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
+  const [loadedTodos, setLoadedTodos] = useState(false);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />

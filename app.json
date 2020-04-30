@@ -1,11 +1,22 @@
 {
-  "name": "Do it Do it",
-  "displayName": "Do it Do it",
   "expo": {
     "name": "Do it Do it",
-    "slug": "Do it",
-    "version": "1.0.0",
+    "slug": "Do",
     "platforms": ["ios", "android", "web"],
-    "assetBundlePatterns": ["**/*"]
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }
