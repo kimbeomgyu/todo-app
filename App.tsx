@@ -78,6 +78,17 @@ export default function App() {
     });
   }, []);
 
+  const updateTodo = useCallback((id, text) => {
+    setTodos((todos) => {
+      return {
+        ...todos,
+        [id]: {
+          ...todos[id],
+          text: text,
+        },
+      };
+    });
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       setLoadedTodos(true);
@@ -110,6 +121,7 @@ export default function App() {
               removeTodo={removeTodo}
               uncompleteTodo={uncompleteTodo}
               completeTodo={completeTodo}
+              updateTodo={updateTodo}
             />
           ))}
         </ScrollView>

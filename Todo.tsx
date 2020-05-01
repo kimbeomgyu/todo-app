@@ -15,6 +15,7 @@ interface ITodo {
   date: number;
 }
 interface IProps extends ITodo {
+  updateTodo: (id: string, text: string) => void;
   removeTodo: (id: string) => void;
   completeTodo: (id: string) => void;
   uncompleteTodo: (id: string) => void;
@@ -26,6 +27,7 @@ export default function Todo({
   id,
   text,
   isCompleted,
+  updateTodo,
   removeTodo,
   completeTodo,
   uncompleteTodo,
@@ -40,8 +42,15 @@ export default function Todo({
     }
   }, [isCompleted]);
 
-  const startEditing = useCallback(() => setIsEditing(true), []);
-  const finishEditing = useCallback(() => setIsEditing(false), []);
+  const startEditing = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  const finishEditing = useCallback(() => {
+    updateTodo(id, toDoValue);
+    setIsEditing(false);
+  }, [id, toDoValue]);
+
   return (
     <View style={styles.container}>
       <View style={styles.column}>
@@ -116,6 +125,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
     marginVertical: 20,
+    paddingVertical: 5,
   },
   circle: {
     width: 30,
