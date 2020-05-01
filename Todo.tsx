@@ -8,24 +8,38 @@ import {
   TextInput,
 } from "react-native";
 
-interface IProps {
+interface ITodo {
   id: string;
   text: string;
   isCompleted: boolean;
   date: number;
+}
+interface IProps extends ITodo {
   removeTodo: (id: string) => void;
+  completeTodo: (id: string) => void;
+  uncompleteTodo: (id: string) => void;
 }
 
 const { width } = Dimensions.get("window");
 
-export default function Todo({ id, text, removeTodo }: IProps) {
+export default function Todo({
+  id,
+  text,
+  isCompleted,
+  removeTodo,
+  completeTodo,
+  uncompleteTodo,
+}: IProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [toDoValue, setToDoValue] = useState(text);
-  const toggleCompleted = useCallback(
-    () => setIsCompleted((isCompleted) => !isCompleted),
-    []
-  );
+  const toggleCompleted = useCallback(() => {
+    if (isCompleted) {
+      uncompleteTodo(id);
+    } else {
+      completeTodo(id);
+    }
+  }, [isCompleted]);
+
   const startEditing = useCallback(() => setIsEditing(true), []);
   const finishEditing = useCallback(() => setIsEditing(false), []);
   return (

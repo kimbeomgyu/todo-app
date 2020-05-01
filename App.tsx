@@ -54,6 +54,30 @@ export default function App() {
     });
   }, []);
 
+  const uncompleteTodo = useCallback((id) => {
+    setTodos((todos) => {
+      return {
+        ...todos,
+        [id]: {
+          ...todos[id],
+          isCompleted: false,
+        },
+      };
+    });
+  }, []);
+
+  const completeTodo = useCallback((id) => {
+    setTodos((todos) => {
+      return {
+        ...todos,
+        [id]: {
+          ...todos[id],
+          isCompleted: true,
+        },
+      };
+    });
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setLoadedTodos(true);
@@ -80,7 +104,13 @@ export default function App() {
         />
         <ScrollView contentContainerStyle={styles.todos}>
           {Object.values(todos).map((todo) => (
-            <Todo key={todo.id} {...todo} removeTodo={removeTodo} />
+            <Todo
+              key={todo.id}
+              {...todo}
+              removeTodo={removeTodo}
+              uncompleteTodo={uncompleteTodo}
+              completeTodo={completeTodo}
+            />
           ))}
         </ScrollView>
       </View>
