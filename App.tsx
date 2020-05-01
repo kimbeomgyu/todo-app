@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
   ScrollView,
+  AsyncStorage,
 } from "react-native";
 import Todo from "./Todo";
 import { AppLoading } from "expo";
@@ -41,7 +42,11 @@ export default function App() {
           date: Date.now(),
         },
       };
-      setTodos((todos) => ({ ...todos, ...todo }));
+      setTodos((todos) => {
+        const newTodos = { ...todos, ...todo };
+        saveTodos(newTodos);
+        return newTodos;
+      });
       setNewTodo("");
     }
   }, [newTodo]);
@@ -50,49 +55,69 @@ export default function App() {
     setTodos((todos) => {
       const newTodos = { ...todos };
       delete newTodos[id];
+      saveTodos(newTodos);
       return newTodos;
     });
   }, []);
 
   const uncompleteTodo = useCallback((id) => {
     setTodos((todos) => {
-      return {
+      const newTodos = {
         ...todos,
         [id]: {
           ...todos[id],
           isCompleted: false,
         },
       };
+      saveTodos(newTodos);
+      return newTodos;
     });
   }, []);
 
   const completeTodo = useCallback((id) => {
     setTodos((todos) => {
-      return {
+      const newTodos = {
         ...todos,
         [id]: {
           ...todos[id],
           isCompleted: true,
         },
       };
+      saveTodos(newTodos);
+      return newTodos;
     });
   }, []);
 
   const updateTodo = useCallback((id, text) => {
     setTodos((todos) => {
-      return {
+      const newTodos = {
         ...todos,
         [id]: {
           ...todos[id],
           text: text,
         },
       };
+      saveTodos(newTodos);
+      return newTodos;
     });
   }, []);
+
+  const loadTodos = useCallback(async () => {
+    try {
+      const todos = await AsyncStorage.getItem("todos");
+      if (typeof todos === "string") {
+        setTodos(JSON.parse(todos));
+        // console.log(todos); // 로딩
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
-    setTimeout(() => {
+    loadTodos().then(() => {
       setLoadedTodos(true);
-    }, 2000);
+    });
   }, []);
 
   if (!loadedTodos) {
@@ -166,3 +191,8 @@ const styles = StyleSheet.create({
   },
   todos: { alignItems: "center" },
 });
+
+function saveTodos(newTodos: ITodos) {
+  // console.log(JSON.stringify(newTodos)); // 저장
+  AsyncStorage.setItem("todos", JSON.stringify(newTodos));
+}
