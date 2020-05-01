@@ -46,6 +46,14 @@ export default function App() {
     }
   }, [newTodo]);
 
+  const removeTodo = useCallback((id) => {
+    setTodos((todos) => {
+      const newTodos = { ...todos };
+      delete newTodos[id];
+      return newTodos;
+    });
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setLoadedTodos(true);
@@ -71,8 +79,8 @@ export default function App() {
           onSubmitEditing={addTodo}
         />
         <ScrollView contentContainerStyle={styles.todos}>
-          {Object.keys(todos).map((key) => (
-            <Todo text={todos[key].text} />
+          {Object.values(todos).map((todo) => (
+            <Todo key={todo.id} {...todo} removeTodo={removeTodo} />
           ))}
         </ScrollView>
       </View>

@@ -8,9 +8,17 @@ import {
   TextInput,
 } from "react-native";
 
+interface IProps {
+  id: string;
+  text: string;
+  isCompleted: boolean;
+  date: number;
+  removeTodo: (id: string) => void;
+}
+
 const { width } = Dimensions.get("window");
 
-export default function Todo({ text }: { text: string }) {
+export default function Todo({ id, text, removeTodo }: IProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [toDoValue, setToDoValue] = useState(text);
@@ -70,7 +78,7 @@ export default function Todo({ text }: { text: string }) {
               <Text style={styles.actionText}>🖍</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPressOut={() => removeTodo(id)}>
             <View style={styles.actionContainer}>
               <Text style={styles.actionText}>❌</Text>
             </View>
@@ -121,7 +129,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: width / 2,
-    justifyContent: "space-between",
   },
   actions: {
     flexDirection: "row",
