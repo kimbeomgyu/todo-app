@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Todo from "./Todo";
 import { AppLoading } from "expo";
-import { v1 as uuidv1 } from "uuid";
+import uuid from "uuid-random";
 const { width } = Dimensions.get("window");
 
 interface ITodo {
@@ -24,6 +24,7 @@ interface ITodo {
 interface ITodos {
   [ID: string]: ITodo;
 }
+
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
   const [loadedTodos, setLoadedTodos] = useState(false);
@@ -31,7 +32,7 @@ export default function App() {
 
   const addTodo = useCallback(() => {
     if (newTodo !== "") {
-      const ID = uuidv1();
+      const ID = uuid();
       const todo = {
         [ID]: {
           id: ID,
@@ -58,7 +59,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <Text style={styles.title}>Kwai To do</Text>
+      <Text style={styles.title}>Kawai To do</Text>
       <View style={styles.card}>
         <TextInput
           value={newTodo}
