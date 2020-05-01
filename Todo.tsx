@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     borderColor: "#bbb",
   },
   uncompletedCircle: {
-    borderColor: "#F23657",
+    borderColor: "#EE5050",
   },
   completedText: {
     color: "#bbb",
