@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   TextInput,
+  GestureResponderEvent,
 } from "react-native";
 
 interface ITodo {
@@ -34,22 +35,32 @@ export default function Todo({
 }: IProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [toDoValue, setToDoValue] = useState(text);
-  const toggleCompleted = useCallback(() => {
-    if (isCompleted) {
-      uncompleteTodo(id);
-    } else {
-      completeTodo(id);
-    }
-  }, [isCompleted]);
+  const toggleCompleted = useCallback(
+    (event: GestureResponderEvent) => {
+      event.stopPropagation();
 
-  const startEditing = useCallback(() => {
+      if (isCompleted) {
+        uncompleteTodo(id);
+      } else {
+        completeTodo(id);
+      }
+    },
+    [isCompleted]
+  );
+
+  const startEditing = useCallback((event: GestureResponderEvent) => {
+    event.stopPropagation();
     setIsEditing(true);
   }, []);
 
-  const finishEditing = useCallback(() => {
-    updateTodo(id, toDoValue);
-    setIsEditing(false);
-  }, [id, toDoValue]);
+  const finishEditing = useCallback(
+    (event: GestureResponderEvent) => {
+      event.stopPropagation();
+      updateTodo(id, toDoValue);
+      setIsEditing(false);
+    },
+    [id, toDoValue]
+  );
 
   return (
     <View style={styles.container}>
