@@ -17,6 +17,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.beom.todo",
+      "versionCode": 1
     }
   }
 }
